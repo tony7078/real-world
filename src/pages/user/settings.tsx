@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserResponse } from "../../interface/user-interface";
 import { getUserProfile, updateUserProfile } from "../../apis/user";
-import Cookies from "js-cookie";
 import Error from "../../util/Error";
 import UserStore from "../../zustand/store";
 
@@ -62,7 +61,6 @@ const Settings = () => {
         if (ok) {
             navigate('/');
             logout();
-            Cookies.remove('token');
             window.location.reload();
         }
     };

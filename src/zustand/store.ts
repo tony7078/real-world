@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import Cookies from "js-cookie";
 
 interface userData {
     isLoggedIn : boolean;
@@ -24,6 +25,7 @@ const UserStore = create(persist<userData>(
         logout: () => {
             set({ isLoggedIn: false });
             localStorage.clear();
+            Cookies.remove('token');
         },
     }), { name: "user-StoreName"}
 ));
