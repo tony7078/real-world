@@ -56,7 +56,7 @@ const Home = () => {
     const getData = async () => { // 게시글 목록 조회
         try {
             const response = await getArticleList();
-            if(response.status === 200){
+            if (response.status === 200) {
                 setData(response.data);
             }
         } catch (err: unknown) {
@@ -106,11 +106,11 @@ const Home = () => {
                             <ul className="nav nav-pills outline-active">
                                 {isLoggedIn && (
                                     <li className="nav-item">
-                                        <a className={"nav-link" + (feed ? ' active' : '')} onClick={handleFeed} href="/">Your Feed</a>
+                                        <a className={"nav-link" + (feed ? ' active' : '')} onClick={handleFeed}>Your Feed</a>
                                     </li>
                                 )}
                                 <li className="nav-item">
-                                    <a className={"nav-link" + (feed ? '' : ' active')} onClick={handleFeed} href="/">Global Feed</a>
+                                    <a className={"nav-link" + (feed ? '' : ' active')} onClick={handleFeed}>Global Feed</a>
                                 </li>
                             </ul>
                         </div>

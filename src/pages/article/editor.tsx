@@ -12,9 +12,9 @@ const Editor = () => {
     const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const { target: { name, value } } = e;
         if (name === "title") {
-            setTitle(value)
+            setTitle(value);
         } else if (name === "description") {
-            setDescription(value)
+            setDescription(value);
         }
     };
 

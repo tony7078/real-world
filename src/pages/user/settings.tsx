@@ -1,28 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserResponse } from "../../interface/user-interface";
 import { getUserProfile, updateUserProfile } from "../../apis/user";
 import Error from "../../util/Error";
 import UserStore from "../../zustand/store";
 
-const dummy = {
-    "user": {
-        "email": "jake@jake.jake",
-        "token": "jwt.token.here",
-        "username": "jake",
-        "bio": "I work at statefarm",
-        "image": null
-    }
-}
-
 const Settings = () => {
     const navigate = useNavigate();
     const { logout } = UserStore();
-    const [data, setData] = useState<UserResponse>(dummy);
-    const [image, setImage] = useState(data?.user?.image || "");
-    const [name, setName] = useState(data?.user?.username || "");
-    const [bio, setBio] = useState(data?.user?.bio || "");
-    const [email, setEmail] = useState(data?.user?.email || "");
+    const [image, setImage] = useState("");
+    const [name, setName] = useState("");
+    const [bio, setBio] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +37,7 @@ const Settings = () => {
             const user = { image, name, bio, email, password }; 
             const response = await updateUserProfile(user);
             if (response.status === 200) {
+                alert("User Profile Changed Successfully!");
                 navigate('/');
             }
         } catch (err: unknown) {
@@ -69,7 +58,10 @@ const Settings = () => {
         try {
             const response = await getUserProfile();
             if (response.status === 200) {
-                setData(response.data);
+                setEmail(response.data.user.email || "");
+                setImage(response.data.user.image || "");
+                setBio(response.data.user.bio || "");
+                setName(response.data.user.username || "");
             }
         } catch (err: unknown) {
             Error(err);

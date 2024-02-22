@@ -147,10 +147,17 @@ const Article = () => {
                                 <span className="date">{formatDate(data.createdAt)}</span>
                             </div>
                             {userName !== data.author.username && (
-                                <button onClick={() => onClickFollow(data.author.username, data.author.following)} className="btn btn-sm btn-outline-secondary">
-                                    <i className="ion-plus-round"></i>
-                                    &nbsp; Follow {data.author.username} <span className="counter">(10)</span>
-                                </button>
+                                (!data.author.following ? (
+                                        <button onClick={() => onClickFollow(data.author.username, data.author.following)} className="btn btn-sm btn-outline-secondary action-btn">
+                                            <i className="ion-plus-round"></i>
+                                            &nbsp; Follow {data.author.username}
+                                        </button>
+                                    ) : (
+                                        <button onClick={() => onClickFollow(data.author.username, data.author.following)} className="btn btn-sm btn-outline-danger action-btn">
+                                            <i className="ion-trash-a"></i>
+                                            &nbsp; Unfollow {data.author.username}
+                                        </button>
+                                    ))
                             )}
                             &nbsp;&nbsp;
                             {data.favorited ? (

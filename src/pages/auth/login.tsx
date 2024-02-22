@@ -1,28 +1,46 @@
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import UserStore from "../../zustand/store";
+import { LoginUser } from "../../apis/user";
+import Error from "../../util/Error";
+import { useState } from "react";
 
 const Login = () => {
     const navigate = useNavigate();
     const { login } = UserStore();
-    const onClickBtn = () => {
-        const dummy = {
-            "user": {
-                "email": "jake@jake.jake",
-                "token": "asgasgogqjgjqjjw",
-                "username": "jake",
-                "bio": "I work at statefarm",
-                "image": "https://i.stack.imgur.com/xHWG8.jpg",
-            }
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const { target: { name, value } } = e;
+        if (name === "email") {
+            setEmail(value);
+        } else if (name === "password") {
+            setPassword(value);
         }
-        const username = dummy.user.username;
-        const token = dummy.user.token;
-        const image = dummy.user.image;
-        login(username, image);
-        Cookies.set('token', token, { expires: 7 });
-        navigate('/');
-        window.location.reload();
-    }
+    };
+
+    const onClickLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(email === "" || password === "") return;
+        try {
+            const data  = { email, password };
+            const postData = { "user": data };
+            const response = await LoginUser(postData);
+            if (response.status === 200) {
+                const userInfo = response.data.user;
+                if (userInfo) {
+                    login(userInfo.username, userInfo.image);
+                    Cookies.set('token', userInfo.token, { expires: 7 });
+                    navigate('/');
+                    window.location.reload();
+                }
+            }
+        } catch (err: unknown) {
+            Error(err);
+        }
+    };
+
     return(
         <div className="auth-page">
             <div className="container page">
@@ -35,14 +53,14 @@ const Login = () => {
                         <ul className="error-messages">
                             <li>That email is already taken</li>
                         </ul>
-                        <form>
+                        <form onSubmit={onClickLogin}>
                             <fieldset className="form-group">
-                                <input className="form-control form-control-lg" type="text" placeholder="Email" />
+                                <input name="email" value={email} onChange={onChange} className="form-control form-control-lg" type="text" placeholder="Email" />
                             </fieldset>
                             <fieldset className="form-group">
-                                <input className="form-control form-control-lg" type="password" placeholder="Password" />
+                                <input name="password" value={password} onChange={onChange} className="form-control form-control-lg" type="password" placeholder="Password" />
                             </fieldset>
-                            <button onClick={onClickBtn} className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
+                            <button type="submit" className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
                         </form>
                     </div>
                 </div>
