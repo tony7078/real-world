@@ -12,7 +12,7 @@ const dummy = {
         "username": "jake",
         "bio": "I work at statefarm",
         "image": null
-      }
+    }
 }
 
 const Settings = () => {

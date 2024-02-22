@@ -11,9 +11,13 @@ export const SignupUser = (user: object) => { // 회원가입
 };
 
 export const getUserProfile = () => { // 사용자 조회
-    return axios.get(`${BASE_URL}/user`);
+    return axios.get(`${BASE_URL}/user`, {
+        withCredentials: true
+    });
 };
 
 export const updateUserProfile = (user: object) => { // 사용자 프로필 수정
-    return axios.put(`${BASE_URL}/user`, user);
+    return axios.put(`${BASE_URL}/user`, user, {
+        withCredentials: true
+    });
 };

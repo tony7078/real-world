@@ -7,9 +7,13 @@ export const getProfile = (username: string) => { // 유저 프로필 조회
 };
 
 export const userFollow = (username: string) => { // 유저 팔로우
-    return axios.post(`${BASE_URL}/profiles/${username}/follow`);
+    return axios.post(`${BASE_URL}/profiles/${username}/follow`, {
+        withCredentials: true
+    });
 };
 
 export const userUnfollow = (username: string) => { // 유저 언팔로우
-    return axios.delete(`${BASE_URL}/profiles/${username}/follow`);
+    return axios.delete(`${BASE_URL}/profiles/${username}/follow`, {
+        withCredentials: true
+    });
 };
