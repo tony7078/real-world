@@ -2,16 +2,6 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import UserStore from "../../zustand/store";
 
-const dummy = {
-    "user": {
-        "email": "jake@jake.jake",
-        "token": "asgasgogqjgjqjjw",
-        "username": "jake",
-        "bio": "I work at statefarm",
-        "image": "https://i.stack.imgur.com/xHWG8.jpg",
-    }
-}
-
 const Login = () => {
     const navigate = useNavigate();
     const { login } = UserStore();
