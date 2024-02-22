@@ -8,14 +8,13 @@ import { addFavorites, deleteFavorites } from "../../apis/favorites";
 import { userFollow, userUnfollow } from "../../apis/profile";
 import { formatDate } from "../../util/util";
 import Error from "../../util/Error";
+import UserStore from "../../zustand/store";
 
 const Article = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const slug = location?.state?.slug;
-    const [isLoggedIn, setLoggedIn] = useState(false);
-    const [username, setUserName] = useState("");
-    const [userImg, setUserImg] = useState("");
+    const { isLoggedIn, userName, userAvatar } = UserStore();
     const [data, setData] = useState<ArticleProps>();
     const [commentData, setCommentData] = useState<CommentResponse>();
     const [body, setBody] = useState("");
@@ -54,7 +53,7 @@ const Article = () => {
 
     const onClickPost = async (e: React.FormEvent<HTMLFormElement>, slug: string) => { // 댓글 등록
         e.preventDefault();
-        if (username === "") {
+        if (isLoggedIn === false) {
             navigate('/login');
             return;
         }
@@ -131,13 +130,6 @@ const Article = () => {
     };
 
     useEffect(() => {
-        const LoggedUser = localStorage.getItem('username');
-        const userImage = localStorage.getItem('image');
-        if (LoggedUser !== null) {
-            setUserName(LoggedUser);
-            setLoggedIn(true);
-        }
-        setUserImg(userImage || "");
         getArticleData(slug);
         getCommentData(slug);
     }, []);
@@ -154,7 +146,7 @@ const Article = () => {
                                 <Link to={`/profile/${data.author.username}`} state={{ user: data.author.username }} className="author">{data.author.username}</Link>
                                 <span className="date">{formatDate(data.createdAt)}</span>
                             </div>
-                            {username !== data.author.username && (
+                            {userName !== data.author.username && (
                                 <button onClick={() => onClickFollow(data.author.username, data.author.following)} className="btn btn-sm btn-outline-secondary">
                                     <i className="ion-plus-round"></i>
                                     &nbsp; Follow {data.author.username} <span className="counter">(10)</span>
@@ -173,7 +165,7 @@ const Article = () => {
                                     </button>
                                 )
                             }
-                            {username === data.author.username && (
+                            {userName === data.author.username && (
                                 <>
                                     <button onClick={() => onClickEdit(data.slug)} className="btn btn-sm btn-outline-secondary">
                                         <i className="ion-edit"></i> Edit Article
@@ -206,7 +198,7 @@ const Article = () => {
                                 <Link to={`/profile/${data.author.username}`} state={{ user: data.author.username }} className="author">{data.author.username}</Link>
                                 <span className="date">{formatDate(data.createdAt)}</span>
                             </div>
-                            {username !== data.author.username && (
+                            {userName !== data.author.username && (
                                 (!data.author.following ? (
                                         <button onClick={() => onClickFollow(data.author.username, data.author.following)} className="btn btn-sm btn-outline-secondary action-btn">
                                             <i className="ion-plus-round"></i>
@@ -225,7 +217,7 @@ const Article = () => {
                                 <i className="ion-heart"></i>
                                 &nbsp; Favorite Article <span className="counter">({data.favoritesCount})</span>
                             </button>
-                            {username === data.author.username && (
+                            {userName === data.author.username && (
                                 <>
                                     <button onClick={() => onClickEdit(data.slug)} className="btn btn-sm btn-outline-secondary">
                                         <i className="ion-edit"></i> Edit Article
@@ -245,7 +237,7 @@ const Article = () => {
                                     <textarea name="body" value={body} onChange={onChangeComment} className="form-control" placeholder="Write a comment..." rows={3}></textarea>
                                 </div>
                                 <div className="card-footer">
-                                    <img src={userImg} className="comment-author-img" />
+                                    <img src={userAvatar} className="comment-author-img" />
                                     <button type="submit" className="btn btn-sm btn-primary">Post Comment</button>
                                 </div>
                             </form>

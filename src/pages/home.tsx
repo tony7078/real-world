@@ -7,13 +7,14 @@ import { getTagList } from "../apis/tag";
 import { TagsProps } from "../interface/tag-interface";
 import Preview from "../components/preview";
 import Error from "../util/Error";
+import UserStore from "../zustand/store";
 
 const Home = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState<ArticlesResponse>();
     const [tag, setTag] = useState<TagsProps>();
     const [feed, setFeed] = useState(false);
-    const [isLoggedIn, setLoggedIn] = useState(false);
-    const navigate = useNavigate();
+    const { isLoggedIn } = UserStore();
 
     const handleFeed = () => { // 피드 or 글로벌 게시글
         if(feed === true) {
@@ -86,10 +87,6 @@ const Home = () => {
     }
 
     useEffect(() => {
-        const LoggedUser = localStorage.getItem('username');
-        if (LoggedUser !== null) {
-            setLoggedIn(true);
-        }
         getData();
         getTag();
     }, []);

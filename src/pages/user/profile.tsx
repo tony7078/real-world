@@ -7,6 +7,7 @@ import { getFavArticle, getUserArticle } from "../../apis/articles";
 import Preview from "../../components/preview";
 import { addFavorites, deleteFavorites } from "../../apis/favorites";
 import Error from "../../util/Error";
+import UserStore from "../../zustand/store";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -15,8 +16,7 @@ const Profile = () => {
     const [feed, setFeed] = useState(false);
     const [data, setData] = useState<ProfileResponse>();
     const [artData, setArtData] = useState<ArticlesResponse>();
-    const [username, setUserName] = useState("");
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const { isLoggedIn, userName } = UserStore();
 
     const handleFeed = () => { // 피드 or 좋아요 게시글
         if(feed === true) {
@@ -120,11 +120,6 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        const LoggedUser = localStorage.getItem('username');
-        if (LoggedUser !== null) {
-            setUserName(LoggedUser);
-            setLoggedIn(true);
-        }
         getProfileData(user);
         getUserData(user);
     }, []);
@@ -139,10 +134,10 @@ const Profile = () => {
                                 <img src={data.profile.image} className="user-img" />
                                 <h4>{data.profile.username}</h4>
                                 <p>{data.profile.bio}</p>
-                                {username === data.profile.username ? (
+                                {userName === data.profile.username ? (
                                     <button className="btn btn-sm btn-outline-secondary action-btn">
                                         <i className="ion-gear-a"></i>
-                                        &nbsp; <a href={`/settings/${username}`}>Edit Profile Settings</a>
+                                        &nbsp; <a href={`/settings/${userName}`}>Edit Profile Settings</a>
                                     </button>
                                 ) : (
                                     (!data.profile.following ? (

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserResponse } from "../../interface/user-interface";
 import { getUserProfile, updateUserProfile } from "../../apis/user";
-import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import Error from "../../util/Error";
+import UserStore from "../../zustand/store";
 
 const dummy = {
     "user": {
@@ -17,6 +18,7 @@ const dummy = {
 
 const Settings = () => {
     const navigate = useNavigate();
+    const { logout } = UserStore();
     const [data, setData] = useState<UserResponse>(dummy);
     const [image, setImage] = useState(data?.user?.image || "");
     const [name, setName] = useState(data?.user?.username || "");
@@ -59,8 +61,8 @@ const Settings = () => {
         const ok = confirm("Are you sure you want to log out?");
         if (ok) {
             navigate('/');
-            localStorage.removeItem('username');
-            localStorage.removeItem('image');
+            logout();
+            Cookies.remove('token');
             window.location.reload();
         }
     };

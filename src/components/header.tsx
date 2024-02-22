@@ -1,21 +1,11 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserStore from "../zustand/store";
 
 const Header = () => {
-    const [username, setUserName] = useState("");
-    const [userImg, setUserImg] = useState("");
+    const { isLoggedIn, userName, userAvatar } = UserStore();
     
-    useEffect(() => { // 로그인 된 유저 이름 및 아바타 조회
-        const isLoggedIn = localStorage.getItem('username');
-        const userImage = localStorage.getItem('image');
-        if (isLoggedIn !== null) {
-            setUserName(isLoggedIn);
-        }
-        setUserImg(userImage || "");
-    }, []);
-
     return(
-        username.length === 0 ? (
+        !isLoggedIn ? (
             <nav className="navbar navbar-light">
                 <div className="container">
                     <a className="navbar-brand" href="/">conduit</a>
@@ -44,13 +34,13 @@ const Header = () => {
                             <a className="nav-link" href="/editor"> <i className="ion-compose"></i>&nbsp;New Article </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href={`/settings/${username}`}> <i className="ion-gear-a"></i>&nbsp;Settings </a>
+                            <a className="nav-link" href={`/settings/${userName}`}> <i className="ion-gear-a"></i>&nbsp;Settings </a>
                         </li>
-                        {username !== "" && (
+                        {userName !== "" && (
                             <li className="nav-item">
-                                <Link to={`/profile/${username}`} state={{ user: username }} className="nav-link">
-                                    <img src={userImg} className="user-pic" />
-                                    {username}
+                                <Link to={`/profile/${userName}`} state={{ user: userName }} className="nav-link">
+                                    <img src={userAvatar} className="user-pic" />
+                                    {userName}
                                 </Link>
                             </li>
                         )}
