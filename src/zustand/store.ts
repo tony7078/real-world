@@ -22,7 +22,7 @@ const UserStore = create(persist<userData>(
             });
         },
         logout: () => {
-            set({ isLoggedIn: true });
+            set({ isLoggedIn: false });
             localStorage.clear();
         },
     }), { name: "user-StoreName"}
