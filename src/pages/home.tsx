@@ -129,7 +129,6 @@ const Home = () => {
                                     <a href="" className="tag-pill tag-default">{item}</a>
                                 </span>
                             ))}
-                            
                         </div>
                     </div>
                 </div>

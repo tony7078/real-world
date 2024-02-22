@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
     const navigate = useNavigate();
     const onClickBtn = () => {
         localStorage.setItem('username', "jake");
         localStorage.setItem('image', "https://i.stack.imgur.com/xHWG8.jpg");
+        const token = "asdasf";
+        Cookies.set('token', token, { expires: 7 });
         navigate('/');
         window.location.reload();
     }
