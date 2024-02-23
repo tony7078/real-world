@@ -22,7 +22,7 @@ const Register = () => {
 
     const onClickRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(email === "" || password === "" || username === "") return;
+        if (email === "" || password === "" || username === "") return;
         try {
             const data  = { email, password, username };
             const postData = { "user": data };

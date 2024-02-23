@@ -3,7 +3,7 @@ import { formatDate } from "../util/util";
 import { PreviewProps } from "../interface/article-interface";
 
 const Preview: React.FC<PreviewProps> = ({ onClickLike, ...item }) => {
-    const handleLikeClick = () => {
+    const handleLikeClick = () => { // 좋아요 버튼 콜백 함수
         onClickLike(item.slug, item.favorited);
     };
 
@@ -29,8 +29,8 @@ const Preview: React.FC<PreviewProps> = ({ onClickLike, ...item }) => {
                 <p>{item.description}</p>
                 <span>Read more...</span>
                 <ul className="tag-list">
-                    {item.tagList.map((index: string) => (
-                        <li className="tag-default tag-pill tag-outline" key={index}>{index}</li>
+                    {item.tagList.map((item, index) => (
+                        <li className="tag-default tag-pill tag-outline" key={index}>{item}</li>
                     ))}
                 </ul>
             </Link>

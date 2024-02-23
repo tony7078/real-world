@@ -67,7 +67,7 @@ const Home = () => {
     const getFeedData = async () => { // 피드 게시글 목록 조회
         try {
             const response = await getArticleFeedList();
-            if(response.status === 200){
+            if (response.status === 200) {
                 setData(response.data);
             }
         } catch (err: unknown) {
@@ -78,7 +78,7 @@ const Home = () => {
     const getTag = async () => { // 태그 목록 불러오기
         try {
             const response = await getTagList();
-            if(response.status === 200){
+            if (response.status === 200) {
                 setTag(response.data);
             }
         } catch (err: unknown) {

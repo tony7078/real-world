@@ -22,7 +22,7 @@ const Login = () => {
 
     const onClickLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(email === "" || password === "") return;
+        if (email === "" || password === "") return;
         try {
             const data  = { email, password };
             const postData = { "user": data };

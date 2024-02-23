@@ -269,7 +269,6 @@ const Article = () => {
                                     <a ui-sref="app.login" href="/login">Sign in</a> or <a ui-sref="app.register" href="/register">sign up</a> to add comments on this article.
                                 </p>
                             )}
-                            
                             {commentData?.comments?.map((item) => (
                                 <div className="card" key={item.id}>
                                     <div className="card-block">

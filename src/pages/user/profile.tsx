@@ -19,7 +19,7 @@ const Profile = () => {
     const { isLoggedIn, userName } = UserStore();
 
     const handleFeed = () => { // 피드 or 좋아요 게시글
-        if(feed === true) {
+        if (feed === true) {
             setFeed(false);
             getUserData(user);
         }
@@ -99,7 +99,7 @@ const Profile = () => {
     const getUserData = async (user: string) => { // 유저 작성 게시글 목록 조회
         try {
             const response = await getUserArticle(user);
-            if(response.status === 200){
+            if (response.status === 200) {
                 setArtData(response.data);
             }
         } catch (err: unknown) {
@@ -110,7 +110,7 @@ const Profile = () => {
     const getFavData = async (user: string) => { // 유저 좋아요 게시글 목록 조회
         try {
             const response = await getFavArticle(user);
-            if(response.status === 200){
+            if (response.status === 200) {
                 setArtData(response.data);
             }
         } catch (err: unknown) {
