@@ -1,9 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserStore from "../zustand/store";
 
 const Header = () => {
+    const navigate = useNavigate();
     const { isLoggedIn, userName, userAvatar } = UserStore();
-    
+
+    const onClickProfile = () => { // 유저 프로필 화면 이동
+        navigate(`/profile/${userName}`, {
+            state: { user: userName }
+        });
+        window.location.reload();
+    };
+
     return(
         !isLoggedIn ? (
             <nav className="navbar navbar-light">
@@ -38,10 +46,10 @@ const Header = () => {
                         </li>
                         {userName !== "" && (
                             <li className="nav-item">
-                                <Link to={`/profile/${userName}`} state={{ user: userName }} className="nav-link">
+                                <a onClick={onClickProfile} href="" className="nav-link">
                                     <img src={userAvatar} className="user-pic" />
                                     {userName}
-                                </Link>
+                                </a>
                             </li>
                         )}
                     </ul>

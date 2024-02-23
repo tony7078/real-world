@@ -3,7 +3,7 @@ import { ArticleProps } from "../../interface/article-interface";
 import { deleteArticle, getArticle } from "../../apis/articles";
 import { CommentResponse } from "../../interface/comment-interface";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { createComments, getComments } from "../../apis/comments";
+import { createComments, deleteComments, getComments } from "../../apis/comments";
 import { addFavorites, deleteFavorites } from "../../apis/favorites";
 import { userFollow, userUnfollow } from "../../apis/profile";
 import { formatDate } from "../../util/util";
@@ -84,6 +84,21 @@ const Article = () => {
             }
         }
     };
+
+    const onClickDeleteCmt = async (id: number) => { // 댓글 삭제
+        const ok = confirm("Are you sure you want to delete Comment?");
+        if (ok) {
+            try {
+                const response = await deleteComments(slug, id);
+                if (response.status === 200) {
+                    alert("Comment is deleted successfully.");
+                    getCommentData(slug);
+                }
+            } catch (err: unknown) {
+                Error(err);
+            }
+        }
+    }
 
     const onClickFavorite = async (slug: string, favorited: boolean) => { // 좋아요 추가 및 삭제 기능
         if (isLoggedIn === false) {
@@ -239,15 +254,21 @@ const Article = () => {
 
                     <div className="row">
                         <div className="col-xs-12 col-md-8 offset-md-2">
-                            <form onSubmit={(e) => onClickPost(e, data.slug)} className="card comment-form">
-                                <div className="card-block">
-                                    <textarea name="body" value={body} onChange={onChangeComment} className="form-control" placeholder="Write a comment..." rows={3}></textarea>
-                                </div>
-                                <div className="card-footer">
-                                    <img src={userAvatar} className="comment-author-img" />
-                                    <button type="submit" className="btn btn-sm btn-primary">Post Comment</button>
-                                </div>
-                            </form>
+                            {isLoggedIn ? (
+                                <form onSubmit={(e) => onClickPost(e, data.slug)} className="card comment-form">
+                                    <div className="card-block">
+                                        <textarea name="body" value={body} onChange={onChangeComment} className="form-control" placeholder="Write a comment..." rows={3}></textarea>
+                                    </div>
+                                    <div className="card-footer">
+                                        <img src={userAvatar} className="comment-author-img" />
+                                        <button type="submit" className="btn btn-sm btn-primary">Post Comment</button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <p show-authed="false" style={{ display: "inherit", textAlign: "center" }}>
+                                    <a ui-sref="app.login" href="/login">Sign in</a> or <a ui-sref="app.register" href="/register">sign up</a> to add comments on this article.
+                                </p>
+                            )}
                             
                             {commentData?.comments?.map((item) => (
                                 <div className="card" key={item.id}>
@@ -263,6 +284,11 @@ const Article = () => {
                                         &nbsp;
                                         <a href={`/profile/${item.author.username}`} className="comment-author">{item.author.username}</a>
                                         <span className="date-posted">{formatDate(item.createdAt)}</span>
+                                        {item.author.username === userName && (
+                                            <button style={{ float: "right"}} onClick={() => onClickDeleteCmt(item.id)} className="btn btn-sm btn-outline-danger">
+                                                <i className="ion-trash-a"></i> Delete Article
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             ))}

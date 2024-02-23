@@ -10,6 +10,8 @@ const Revise = () => {
     const [title, setTitle] = useState(location.state?.title || "");
     const [description, setDescription] = useState(location.state?.description || "");
     const [body, setBody] = useState(location.state?.body || "");
+    const [tagList, setTagList] = useState<string[]>(location.state?.tagList || []);
+    const [tag, setTag] = useState("");
 
     const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const { target: { name, value } } = e;
@@ -17,6 +19,8 @@ const Revise = () => {
             setTitle(value);
         } else if (name === "description") {
             setDescription(value);
+        } else if (name === "tag") {
+            setTag(value);
         }
     };
 
@@ -24,11 +28,22 @@ const Revise = () => {
         setBody(e.target.value);
     };
 
+    const onClickAdd = (tag: string) => { // 태그 추가
+        if(tag === "") return;
+        setTagList([...tagList, tag]);
+        setTag("");
+    };
+
+    const onClickDelete = (tagName: string) => { // 태그 삭제
+        const updatedTagList = tagList.filter(tag => tag !== tagName);
+        setTagList(updatedTagList);
+    };
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => { // 게시글 수정
         e.preventDefault();
-        if (title === "" || description === "" || body === "" ) return;
+        if (title === "" || description === "" || body === "" || tagList.length === 0 ) return;
         try {
-            const data  = { title, description, body };
+            const data  = { title, description, body, tagList };
             const postData = { "article": data };
             const response = await updateArticle(slug, postData);
             if (response.status === 200) {
@@ -68,12 +83,17 @@ const Revise = () => {
                                     ></textarea>
                                 </fieldset>
                                 <fieldset className="form-group">
-                                    <input type="text" className="form-control" placeholder="Enter tags" />
-                                    <div className="tag-list">
-                                        <span className="tag-default tag-pill">
-                                            <i className="ion-close-round"></i> tag
-                                        </span>
+                                    <div style={{ display: "flex" }}>
+                                        <input type="text" className="form-control" placeholder="Enter tags" name="tag" value={tag} onChange={onChange} />
+                                        <button type="button" onClick={() => onClickAdd(tag)} className="btn btn-sm btn-outline-secondary action-btn">
+                                            <i className="ion-plus-round"></i> Add
+                                        </button>
                                     </div>
+                                    {tagList.map((item, index) => (
+                                        <div className="tag-list" key={index}>
+                                            <span onClick={() => onClickDelete(item)} className="tag-default tag-pill"> <i className="ion-close-round"></i> {item} </span>
+                                        </div>
+                                    ))}
                                 </fieldset>
                                 <button type="submit" className="btn btn-lg pull-xs-right btn-primary">
                                     Edit Article

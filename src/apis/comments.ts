@@ -17,8 +17,8 @@ export const createComments = (slug: string, postData: object) => { // 댓글 �
     });
 };
 
-export const deleteComments = (slug: string) => { // 댓글 삭제 !! 수정 필요
-    return axios.delete(`${BASE_URL}/articles/${slug}/comments`, {
+export const deleteComments = (slug: string, id: number) => { // 댓글 삭제 !! 수정 필요
+    return axios.delete(`${BASE_URL}/articles/${slug}/comments/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
