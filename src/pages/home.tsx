@@ -16,6 +16,16 @@ const Home = () => {
     const [feed, setFeed] = useState(false);
     const { isLoggedIn } = UserStore();
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage: number = 10;
+    const startIndex: number = (currentPage - 1) * itemsPerPage;
+    const endIndex: number = startIndex + itemsPerPage;
+    const paginatedArticles = data?.articles?.slice(startIndex, endIndex);
+
+    const handlePageChange = (page: number) => { // 페이지 변경
+        setCurrentPage(page);
+    };
+
     const handleFeed = () => { // 피드 or 글로벌 게시글
         if(feed === true) {
             setFeed(false);
@@ -57,6 +67,7 @@ const Home = () => {
         try {
             const response = await getArticleList();
             if (response.status === 200) {
+                console.log(response.data)
                 setData(response.data);
             }
         } catch (err: unknown) {
@@ -114,10 +125,20 @@ const Home = () => {
                                 </li>
                             </ul>
                         </div>
-                        {data?.articles?.map((item) => (
+                        {paginatedArticles?.map((item) => (
                             <Preview key={item.slug} onClickLike={onClickLike} {...item} />
                         ))}
+                         <ul className="pagination">
+                            {data?.articlesCount ? (Array.from({ length: Math.ceil(data.articlesCount / itemsPerPage) }, (_, i) => (
+                                <li key={i} className={"page-item" + (currentPage === i + 1 ? ' active' : '')}>
+                                    <a className="page-link" onClick={() => handlePageChange(i + 1)}>{i + 1}</a>
+                                </li>
+                            ))) : (
+                                <p>No articles are here... yet.</p>
+                            )}
+                        </ul>
                     </div>
+                    
                     <div className="col-md-3">
                         <div className="sidebar">
                             <p>Popular Tags</p>
