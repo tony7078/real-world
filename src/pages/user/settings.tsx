@@ -13,7 +13,7 @@ const Settings = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => { // 이미지, 이름, 이메일, 비밀번호 상태 값 변경
         const { target: { name, value } } = e;
         if (name === "image") {
             setImage(value);
@@ -26,7 +26,7 @@ const Settings = () => {
         }
     };
 
-    const onChangeBio = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onChangeBio = (e:React.ChangeEvent<HTMLTextAreaElement>) => { // 바이오 상태 값 변경
         setBio(e.target.value);
     };
 
@@ -40,7 +40,7 @@ const Settings = () => {
                 alert("User Profile Changed Successfully!");
                 navigate('/');
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -63,7 +63,7 @@ const Settings = () => {
                 setBio(response.data.user.bio || "");
                 setName(response.data.user.username || "");
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

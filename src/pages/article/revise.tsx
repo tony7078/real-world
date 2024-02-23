@@ -13,7 +13,7 @@ const Revise = () => {
     const [tagList, setTagList] = useState<string[]>(location.state?.tagList || []);
     const [tag, setTag] = useState("");
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => { // 제목, 설명, 태그 상태 값 변경
         const { target: { name, value } } = e;
         if (name === "title") {
             setTitle(value);
@@ -24,7 +24,7 @@ const Revise = () => {
         }
     };
 
-    const onChangeBody = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onChangeBody = (e:React.ChangeEvent<HTMLTextAreaElement>) => { // 내용 상태 값 변경
         setBody(e.target.value);
     };
 
@@ -49,7 +49,7 @@ const Revise = () => {
             if (response.status === 200) {
                 navigate(`/article/${slug}`);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

@@ -15,7 +15,6 @@ const Home = () => {
     const [tag, setTag] = useState<TagsProps>();
     const [feed, setFeed] = useState(false);
     const { isLoggedIn } = UserStore();
-
     const [currentPage, setCurrentPage] = useState<number>(1);
     const itemsPerPage: number = 10;
     const startIndex: number = (currentPage - 1) * itemsPerPage;
@@ -38,26 +37,26 @@ const Home = () => {
     }
 
     const onClickLike = async (slug: string, favorited: boolean) => { // 좋아요 추가 및 삭제 기능
-        if (isLoggedIn === false) {
+        if (isLoggedIn === false) { // 비로그인 시 로그인 화면 이동
             navigate('/login');
             return;
         }
-        if (favorited === false) {
+        if (favorited === false) { // 좋아요 추가
             try {
                 const response = await addFavorites(slug);
                 if (response.status === 200) {
                     getData();
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
-        } else {
+        } else { // 좋아요 취소
             try {
                 const response = await deleteFavorites(slug);
                 if (response.status === 200) {
                     getData();
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
         }
@@ -70,7 +69,7 @@ const Home = () => {
                 console.log(response.data)
                 setData(response.data);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -81,7 +80,7 @@ const Home = () => {
             if (response.status === 200) {
                 setData(response.data);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     }
@@ -92,7 +91,7 @@ const Home = () => {
             if (response.status === 200) {
                 setTag(response.data);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     }

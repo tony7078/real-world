@@ -19,7 +19,7 @@ const Article = () => {
     const [commentData, setCommentData] = useState<CommentResponse>();
     const [body, setBody] = useState("");
 
-    const onChangeComment = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onChangeComment = (e:React.ChangeEvent<HTMLTextAreaElement>) => { // 내용 상태 값 변경
         setBody(e.target.value);
     };
 
@@ -29,7 +29,7 @@ const Article = () => {
             if (response.status === 200) {
                 setData(response.data?.article);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -40,7 +40,7 @@ const Article = () => {
             if (response.status === 200) {
                 setCommentData(response.data);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -53,7 +53,7 @@ const Article = () => {
 
     const onClickPost = async (e: React.FormEvent<HTMLFormElement>, slug: string) => { // 댓글 등록
         e.preventDefault();
-        if (isLoggedIn === false) {
+        if (isLoggedIn === false) { // 비로그인 시 로그인 화면 이동
             navigate('/login');
             return;
         }
@@ -65,7 +65,7 @@ const Article = () => {
             if (response.status === 200) {
                 navigate("/");
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -79,7 +79,7 @@ const Article = () => {
                     alert("Article is deleted successfully.");
                     navigate('/');
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
         }
@@ -94,52 +94,52 @@ const Article = () => {
                     alert("Comment is deleted successfully.");
                     getCommentData(slug);
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
         }
     }
 
     const onClickFavorite = async (slug: string, favorited: boolean) => { // 좋아요 추가 및 삭제 기능
-        if (isLoggedIn === false) {
+        if (isLoggedIn === false) { // 비로그인 시 로그인 화면 이동
             navigate('/login');
             return;
         }
         try {
-            if (favorited === false) {
+            if (favorited === false) { // 좋아요 추가
                 const response = await addFavorites(slug);
                 if (response.status === 200) {
                     getArticleData(slug);
                 }
-            } else {
+            } else { // 좋아요 취소
                 const response = await deleteFavorites(slug);
                 if (response.status === 200) {
                     getArticleData(slug);
                 }
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
 
     const onClickFollow = async (username: string, following: boolean) => { // 팔로우 추가 및 삭제 기능
-        if (isLoggedIn === false) {
+        if (isLoggedIn === false) { // 비로그인 시 로그인 화면 이동
             navigate('/login');
             return;
         }
         try {
-            if (following === false) {
+            if (following === false) { // 팔로우 추가
                 const response = await userFollow(username);
                 if (response.status === 200) {
                     getArticleData(slug);
                 }
-            } else {
+            } else { // 팔로우 취소
                 const response = await userUnfollow(username);
                 if (response.status === 200) {
                     getArticleData(slug);
                 }
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

@@ -11,7 +11,7 @@ const Editor = () => {
     const [tagList, setTagList] = useState<string[]>([]);
     const [tag, setTag] = useState("");
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => { // 제목, 설명, 태그 상태 값 변경
         const { target: { name, value } } = e;
         if (name === "title") {
             setTitle(value);
@@ -22,7 +22,7 @@ const Editor = () => {
         }
     };
 
-    const onChangeBody = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+    const onChangeBody = (e:React.ChangeEvent<HTMLTextAreaElement>) => { // 내용 상태 값 변경
         setBody(e.target.value);
     };
 
@@ -37,7 +37,7 @@ const Editor = () => {
         setTagList(updatedTagList);
     };
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => { // 게시글 등록
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => { // 게시글 등록 요청
         e.preventDefault();
         if (title === "" || description === "" || body === "" || tagList.length === 0 ) return;
         try {
@@ -47,7 +47,7 @@ const Editor = () => {
             if (response.status === 201) {
                 navigate("/");
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

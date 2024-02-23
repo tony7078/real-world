@@ -29,12 +29,12 @@ const Profile = () => {
         }
     }
 
-    const onClickLike = async (slug: string, favorited: boolean) => { // 좋아요 추가 및 삭제 기능
+    const onClickLike = async (slug: string, favorited: boolean) => { // 좋아요 추가 및 취소 기능
         if (isLoggedIn === false) {
             navigate('/login');
             return;
         }
-        if (favorited === false) {
+        if (favorited === false) { // 좋아요 추가
             try {
                 const response = await addFavorites(slug);
                 if (response.status === 200) {
@@ -44,10 +44,10 @@ const Profile = () => {
                         getFavData(user);
                     }
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
-        } else {
+        } else { // 좋아요 취소
             try {
                 const response = await deleteFavorites(slug);
                 if (response.status === 200) {
@@ -57,7 +57,7 @@ const Profile = () => {
                         getFavData(user);
                     }
                 }
-            } catch (err: unknown) {
+            } catch (err: unknown) { // 에러 핸들링
                 Error(err);
             }
         }
@@ -69,18 +69,18 @@ const Profile = () => {
             return;
         }
         try {
-            if (following === false) {
+            if (following === false) { // 팔로우 추가
                 const response = await userFollow(username);
                 if (response.status === 200) {
                     setData(response.data);
                 }
-            } else {
+            } else { //팔로우 취소
                 const response = await userUnfollow(username);
                 if (response.status === 200) {
                     setData(response.data);
                 }
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };
@@ -113,7 +113,7 @@ const Profile = () => {
             if (response.status === 200) {
                 setArtData(response.data);
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
             setFeed(false);
         }

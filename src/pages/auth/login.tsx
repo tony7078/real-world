@@ -11,7 +11,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => { // 이메일, 비밀번호 상태 값 변경
         const { target: { name, value } } = e;
         if (name === "email") {
             setEmail(value);
@@ -20,7 +20,7 @@ const Login = () => {
         }
     };
 
-    const onClickLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    const onClickLogin = async (e: React.FormEvent<HTMLFormElement>) => { // 로그인 요청
         e.preventDefault();
         if (email === "" || password === "") return;
         try {
@@ -36,7 +36,7 @@ const Login = () => {
                     window.location.reload();
                 }
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

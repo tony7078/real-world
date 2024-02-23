@@ -9,7 +9,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => { // 이메일, 이름, 비밀번호 상태 값 변경
         const { target: { name, value } } = e;
         if (name === "email") {
             setEmail(value);
@@ -20,7 +20,7 @@ const Register = () => {
         }
     };
 
-    const onClickRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    const onClickRegister = async (e: React.FormEvent<HTMLFormElement>) => { // 회원가입 요청
         e.preventDefault();
         if (email === "" || password === "" || username === "") return;
         try {
@@ -31,7 +31,7 @@ const Register = () => {
                 alert("Sign up Successfully");
                 navigate('/login');
             }
-        } catch (err: unknown) {
+        } catch (err: unknown) { // 에러 핸들링
             Error(err);
         }
     };

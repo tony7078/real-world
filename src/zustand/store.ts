@@ -10,7 +10,7 @@ interface userData {
     logout: () => void;
 };
 
-const UserStore = create(persist<userData>(
+const UserStore = create(persist<userData>( // 상태 관리 정보(로그인 상태, 로그인한 유저 이름, 로그인한 유저 아바타 이미지)
     (set) => ({
         isLoggedIn: false,
         userName: "",
