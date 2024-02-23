@@ -66,7 +66,6 @@ const Home = () => {
         try {
             const response = await getArticleList();
             if (response.status === 200) {
-                console.log(response.data)
                 setData(response.data);
             }
         } catch (err: unknown) { // 에러 핸들링

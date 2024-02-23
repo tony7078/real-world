@@ -115,7 +115,6 @@ const Profile = () => {
             }
         } catch (err: unknown) { // 에러 핸들링
             Error(err);
-            setFeed(false);
         }
     };
 
@@ -170,9 +169,13 @@ const Profile = () => {
                                     </li>
                                 </ul>
                             </div>
-                            {artData?.articles?.map((item) => (
-                                <Preview key={item.slug} onClickLike={onClickLike} {...item} />
-                            ))}
+                            {artData?.articles ? (
+                                artData.articles.map((item) => (
+                                    <Preview key={item.slug} onClickLike={onClickLike} {...item} />
+                                ))
+                            ) : (
+                                <p>No articles are here... yet.</p>
+                            )}
                         </div>
                     </div>
                 </div>
