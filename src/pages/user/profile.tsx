@@ -9,6 +9,7 @@ import { addFavorites, deleteFavorites } from "../../apis/favorites";
 import Error from "../../util/Error";
 import UserStore from "../../zustand/store";
 
+
 const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
